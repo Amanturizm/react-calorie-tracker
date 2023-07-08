@@ -24,7 +24,7 @@ const App = () => {
 
       <main style={{paddingTop: 76}}>
         <Routes>
-          <Route path={setSeveralPossiblePaths('/', '/meals')} element={<CalorieTracker/>}/>
+          <Route path={setSeveralPossiblePaths('/', '/meals')} element={<CalorieTracker/>} />
           <Route path={setSeveralPossiblePaths('/new-meal', '/meals/new-meal')} element={<MealForm/>}/>
 
           <Route path="*" element={<h1 className="position-absolute top-50 start-50 translate-middle">Not Found!</h1>}/>

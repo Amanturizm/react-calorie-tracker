@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import Meals from "../../components/Meals/Meals";
+import { Link } from "react-router-dom";
 import axiosApi from "../../axiosApi";
-import {Link} from "react-router-dom";
+import Meals from "../../components/Meals/Meals";
 
 const CalorieTracker = () => {
   const [meals, setMeals] = useState<IMealInfo[]>([]);

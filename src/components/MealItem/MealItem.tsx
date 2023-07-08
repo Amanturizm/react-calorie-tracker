@@ -1,10 +1,12 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 interface Props {
   meal: IMealInfo;
+  deleteConfirm: () => void;
 }
 
-const MealItem: React.FC<Props> = ({ meal }) => {
+const MealItem: React.FC<Props> = ({ meal, deleteConfirm }) => {
   return (
     <div className="d-flex justify-content-between border border-2 border-white rounded-4 p-3">
       <div>
@@ -16,8 +18,8 @@ const MealItem: React.FC<Props> = ({ meal }) => {
         <h4>{meal.kcal} kcal</h4>
 
         <div className="d-flex flex-column gap-3">
-          <button className="btn btn-outline-success">edit</button>
-          <button className="btn btn-outline-danger">del</button>
+          <Link to="edit-meal" className="btn btn-outline-success">edit</Link>
+          <button onClick={deleteConfirm} className="btn btn-outline-danger">del</button>
         </div>
       </div>
     </div>

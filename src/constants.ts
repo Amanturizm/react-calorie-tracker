@@ -1,0 +1,1 @@
+export const MEALTIMES = ['Breakfast', 'Snack', 'Lunch', 'Dinner'];

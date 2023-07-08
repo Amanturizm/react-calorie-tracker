@@ -1,8 +1,8 @@
 interface IMealInfo {
-  id: string;
+  id?: string;
   mealtime: string;
   meal: string;
-  kcal: number;
+  kcal: number | string;
 }
 
 interface IApiMealInfo {

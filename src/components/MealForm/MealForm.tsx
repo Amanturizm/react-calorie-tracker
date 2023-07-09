@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, {useCallback, useEffect, useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
 import axiosApi from '../../axiosApi';
 import { MEALTIMES } from "../../constants";
+import MealFormItem from "../MealFormItem/MealFormItem";
+import CloseBtn from "../CloseBtn/CloseBtn";
 
 const defaultState: IMealInfo = {
   mealtime: '',
@@ -11,8 +13,30 @@ const defaultState: IMealInfo = {
 
 const PageForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [mealValue, setMealValue] = useState<IMealInfo>(defaultState);
+  const [btnLoad, setBtnLoad] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const fetchData = useCallback(async (id: string) => {
+    try {
+      setLoading(true);
+      const { data } = await axiosApi<IMealInfo>(`/meals/${id}.json`);
+
+      setMealValue(data ? data : defaultState);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      void fetchData(id);
+    }
+  }, [fetchData, id]);
 
   const changeValue = (e: React.ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,62 +53,45 @@ const PageForm = () => {
       alert('Введите калории!');
     } else {
       try {
-        await axiosApi.post('/meals.json', mealValue);
+        setBtnLoad(true);
+        if (id) {
+          await axiosApi.put(`/meals/${id}.json`, mealValue);
+        } else {
+          await axiosApi.post('/meals.json', mealValue);
+          navigate('/meals');
+        }
 
-        navigate('/meals');
       } catch (e) {
         console.error(e);
+      } finally {
+        setBtnLoad(false);
       }
     }
   };
 
-  return (
-    <form onSubmit={sendData} style={{ minWidth: 300 }} className="container w-50 p-4">
-      <label htmlFor="select-mealtime" className="form-label">Mealtime</label>
-      <select
-        className="form-select mb-2"
-        id="select-mealtime"
-        name="mealtime"
-        onChange={changeValue}
-      >
-        <option value="" hidden>Select mealtime</option>
-        {
-          MEALTIMES.map(mealtime => (
-            <option
-              key={'mealtime' + mealtime}
-              className="text-black"
-              value={mealtime}
-            >
-              {mealtime}
-            </option>
-          ))
-        }
-      </select>
-
-      <label htmlFor="textarea-meal" className="form-label">Meal description</label>
-      <textarea
-        name="meal"
-        id="textarea-meal"
-        cols={2}
-        rows={3}
-        className="form-control"
-        value={mealValue.meal}
-        onChange={changeValue}
-      />
-
-      <label htmlFor="input-kcal" className="form-label">Kcal</label>
-      <input
-        name="kcal"
-        id="input-kcal"
-        type="number"
-        className="form-control"
-        value={mealValue.kcal}
-        onChange={changeValue}
-      />
-
-      <button className="btn btn-outline-primary mt-3 px-4">Create</button>
-    </form>
+  const form: React.ReactNode = (
+    <MealFormItem
+      mealValue={mealValue}
+      changeValue={changeValue}
+      sendData={sendData}
+      btnLoad={btnLoad}
+      id={id}
+    />
   );
+
+  const preloader = loading ? (
+    <div className="preloader">
+      <div className="loader"></div>
+    </div>
+  ) : null;
+
+  return id ?
+    <div className="w-25 bg-black rounded-4 py-5 px-4 pb-4 position-fixed top-50 start-50 translate-middle">
+      <CloseBtn to="/meals" />
+      {form}
+      {preloader}
+    </div>
+    : <div className="w-50 m-auto">{form}</div>;
 };
 
 export default PageForm;

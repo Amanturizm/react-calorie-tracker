@@ -18,7 +18,7 @@ const MealItem: React.FC<Props> = ({ meal, deleteConfirm }) => {
         <h4>{meal.kcal} kcal</h4>
 
         <div className="d-flex flex-column gap-3">
-          <Link to="edit-meal" className="btn btn-outline-success">edit</Link>
+          <Link to={`/meals/edit-meal/${meal.id}`} className="btn btn-outline-success">edit</Link>
           <button onClick={deleteConfirm} className="btn btn-outline-danger">del</button>
         </div>
       </div>

@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import ButtonSpinner from "../ButtonSpinner/ButtonSpinner";
-import {useNavigate} from "react-router-dom";
 
 interface Props {
   id: string;
   hideConfirm: () => void;
+  updateData: () => void;
 }
 
-const DeleteConfirm: React.FC<Props> = ({ id, hideConfirm }) => {
+const DeleteConfirm: React.FC<Props> = ({ id, hideConfirm, updateData }) => {
   const [btnLoad, setBtnLoad] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -21,6 +22,7 @@ const DeleteConfirm: React.FC<Props> = ({ id, hideConfirm }) => {
     } finally {
       hideConfirm();
       navigate('/');
+      updateData();
     }
   };
 

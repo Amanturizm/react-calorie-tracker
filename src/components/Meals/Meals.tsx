@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import MealItem from "../MealItem/MealItem";
 import DeleteConfirm from "../DeleteConfirm/DeleteConfirm";
 
 interface Props {
   meals: IMealInfo[];
+  updateData: () => void;
 }
 
-const Meals: React.FC<Props> = ({ meals }) => {
+const Meals: React.FC<Props> = ({ meals, updateData }) => {
   const [isDeleteConfirm, setIsDeleteConfirm] = useState<string | null>(null);
 
   return (
@@ -18,7 +19,11 @@ const Meals: React.FC<Props> = ({ meals }) => {
       }
       {
         isDeleteConfirm ?
-          <DeleteConfirm id={isDeleteConfirm} hideConfirm={() => setIsDeleteConfirm(null)} />
+          <DeleteConfirm
+            id={isDeleteConfirm}
+            hideConfirm={() => setIsDeleteConfirm(null)}
+            updateData={updateData}
+          />
           : null
       }
     </div>

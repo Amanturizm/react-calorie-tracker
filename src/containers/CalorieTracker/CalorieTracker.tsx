@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Link, Outlet, useLocation} from "react-router-dom";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, Outlet, useLocation } from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import Meals from "../../components/Meals/Meals";
 
@@ -41,7 +41,7 @@ const CalorieTracker = () => {
         <Link to="new-meal" className="btn btn-primary">Add new meal</Link>
       </div>
 
-      <Meals meals={meals} />
+      <Meals meals={meals} updateData={fetchData} />
       {preloader}
       <Outlet />
     </div>

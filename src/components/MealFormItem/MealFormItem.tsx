@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {MEALTIMES} from "../../constants";
+import React from 'react';
+import { MEALTIMES } from "../../constants";
 import ButtonSpinner from "../ButtonSpinner/ButtonSpinner";
 
 interface Props {

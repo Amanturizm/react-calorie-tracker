@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Route, Routes, useLocation} from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import CalorieTracker from "./containers/CalorieTracker/CalorieTracker";
 import MealForm from "./components/MealForm/MealForm";
 import NotFound from "./containers/NotFound/NotFound";
@@ -26,7 +26,7 @@ const App = () => {
 
       <main style={{paddingTop: 76}}>
         <Routes>
-          <Route path={pathname === '/' ? '/' : '/meals'} element={<CalorieTracker/>}>
+          <Route path={setSeveralPossiblePaths('/', '/meals')} element={<CalorieTracker/>}>
             <Route path="/meals/edit-meal/:id" element={<MealForm />} />
           </Route>
           <Route path={setSeveralPossiblePaths('/new-meal', '/meals/new-meal')} element={<MealForm/>} />
